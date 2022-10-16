@@ -6,7 +6,7 @@
 library(readr)
 
 PTMH.00 <- read.csv("PTMH_data00.csv")
-view(PTMH.00)
+View(PTMH.00) # ========== changed view to View ========== CL
 
 #STEP 2 - apply rhe count function from dplyr
 
@@ -66,6 +66,7 @@ nrow(PTMHblank)
 PTMHblank2 <- subset(PTMHblank, SCOPI_01>=1)
 nrow(PTMHblank2)
 
+PTMH_01 <- read.csv("PTMH_01.csv") # ========== adding read.csv for PTMH.01 ========== CL
 
 #delete test cases  
 count(PTMH_01, ID)
@@ -223,10 +224,10 @@ table(PTMH.01valid$BFI.pass)
 table(PTMH.01valid$DPS.pass)
 
 
-PTMH.01valid2$pass.7SR <- (PTMH.01valid$SCOPI.pass +PTMH.01valid$IDAS.pass + 
+PTMH.01valid$pass.7SR <- (PTMH.01valid$SCOPI.pass +PTMH.01valid$IDAS.pass + 
                             PTMH.01valid$MSS.pass +PTMH.01valid$PID.pass + 
                             PTMH.01valid$BFI.pass + PTMH.01valid$DPS.pass + 
-                            PTMH.01valid$PCQ.pass)
+                            PTMH.01valid$PCQ.pass)  # ========== changed PTMH.01valid2 to PTMH.01valid ========== CL
 
 PTMH.01valid2 <- subset(PTMH.01valid, pass.7SR > 6)
 table(PTMH.01valid2$pass.7SR)
@@ -707,6 +708,10 @@ library(tidyverse)
 
 PTMH.03 %>% summarise_if(is.numeric, funs(sum(is.na = TRUE)))
 
+colnames(PTMH.03)[colSums(is.na(PTMH.03)) > 0] # ========== checking column names for any column with NA ========== CL
+which(is.na(PTMH.03$GENDER), arr.ind=TRUE) # ========== printing rows with NA for column "GENDER" ========== CL
+which(is.na(PTMH.03$SCOPI_35), arr.ind=TRUE) # ========== printing rows with NA for column "SCOPI_35" ========== CL
+
 library(dplyr)
 ?mutate
 mutate(PTMH.03, id = row_number())
@@ -766,8 +771,8 @@ md.pattern(PTMH.03)
 
 methods(mice)
 summary(PTMH.03$SCOPI_01)
-count_fields(PTMH_03)
-summary(PTMH_03)
+count_fields(PTMH.03) # ========== changed PTMH_03 to PTMH.03 ========== CL
+summary(PTMH.03) # ========== changed PTMH_03 to PTMH.03 ========== CL
 
 
 sapply()
