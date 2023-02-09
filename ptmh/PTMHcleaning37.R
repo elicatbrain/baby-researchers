@@ -96,27 +96,15 @@ library(dplyr)
 
 
 PTMH.01 <- read.csv("PTMH_01.csv")
-view(PTMH.01)
-view(PTMH.01)
+View(PTMH.01)
 
-PTMH.01$Valid_1 <- PTMH.01$VALID_1
+
 
 PTMH.01[]
 
 
 -----------------#VALIDITY CHECKS---------------------------------------------
   #VALIDITY CHECKS
-#using nested ifelse functions
-#DEMO nested ifelse function
-PTMH.01$test <- with(PTMH.01, ifelse(
-  Valid_1 %in% c(1, 2), 2, ifelse(
-    Valid_1 %in% c(3, 4), 1, 0
-  )
-))  
-table(PTMH.01$test)
-PTMH.01 <- subset(PTMH.01, select=-c(test)) 
-#removed test from dataset
-
 
 #validity check 1
 PTMH.01$VALID_1[]
@@ -126,16 +114,13 @@ class(PTMH.01$VALID_1)
 PTMH.01$VALID_1 <- as.numeric(PTMH.01$VALID_1)
 
 #new var for passing validity item 1
-PTMH.01$v1.pass <- with(PTMH.01, ifelse(
-  VALID_1 %in% c(1, 2), 1, 0
-))
+PTMH.01$v1.pass <- with(PTMH.01, ifelse(VALID_1 %in% c(1, 2), 1, 0))
 table(PTMH.01$v1.pass)
 
 
 #validity check 2
 PTMH.01$Valid_2[]
 table(PTMH.01$Valid_2)
-
 # new var v2.pass 
 PTMH.01$v2.pass <- with (PTMH.01, ifelse(Valid_2 %in% c(1), 1, 0))
 table(PTMH.01$v2.pass)
@@ -144,7 +129,6 @@ table(PTMH.01$v2.pass)
 #validity check 3
 PTMH.01$Valid_3[]
 table(PTMH.01$Valid_3)
-
 #new var v3.pass
 PTMH.01$v3.pass <- with(PTMH.01, ifelse(Valid_3 %in% c(5, 4), 1, 0))
 table(PTMH.01$v3.pass)
@@ -152,7 +136,6 @@ table(PTMH.01$v3.pass)
 #validity check 4
 PTMH.01$Valid_4[]
 table(PTMH.01$Valid_4)
-
 #new var v4.pass
 PTMH.01$v4.pass <- with(PTMH.01, ifelse(Valid_4 %in% c(1), 1, 0))
 table(PTMH.01$v4.pass)
@@ -162,27 +145,33 @@ table(PTMH.01$v4.pass)
 #validity check 5
 PTMH.01$Valid_5[]
 table(PTMH.01$Valid_5)
-
+#new var v5.pass
 PTMH.01$v5.pass <- with(PTMH.01, Valid_5 %in% c(2), 1, 0)
 table(PTMH.01$v5.pass)
 
 PTMH.01$v5.pass <- as.numeric(PTMH.01$v5.pass)
 
-
+table(PTMH.01$v1.pass, PTMH.01$v2.pass, PTMH.01$v3.pass, PTMH.01$v4.pass,
+      PTMH.01$v5.pass)
 
 #COMPOSITE validity 
 #0 if fail and 1 if pass -> add all five
 PTMH.01$v.score <- PTMH.01$v1.pass + PTMH.01$v2.pass + PTMH.01$v3.pass + PTMH.01$v4.pass +PTMH.01$v5.pass
 table(PTMH.01$v.score)
 
+
+nrow(PTMH.01)
+
 #preregistered cutoff is 60%...need v.score of c(3,4,5) 
 #delete cases where v.score is c(0,1,2)
 
 PTMH.01valid <- subset(PTMH.01, v.score > 3) 
+nrow(PTMH.01valid)
 
 #YAY
 
 PTMH.01valid[]
+View(PTMH.01valid)
 
 -----------------#SECONDS PER ITEM---------------------------------------------
 #STEP 5 - seconds per item 
@@ -229,9 +218,35 @@ PTMH.01valid$pass.7SR <- (PTMH.01valid$SCOPI.pass +PTMH.01valid$IDAS.pass +
                             PTMH.01valid$MSS.pass +PTMH.01valid$PID.pass + 
                             PTMH.01valid$BFI.pass + PTMH.01valid$DPS.pass + 
                             PTMH.01valid$PCQ.pass)
+table(PTMH.01valid$pass.7SR)
+
+
+
+
+
+
+
+PTMH.01secfail <- subset(PTMH.01valid, pass.7SR < 7)
+View(PTMH.01secfail)
 
 PTMH.01valid2 <- subset(PTMH.01valid, pass.7SR > 6)
 table(PTMH.01valid2$pass.7SR)
+
+
+
+
+count_na_func <- function(x) sum(is.na(x))    
+PTMH.01secfail$count_na <- apply(PTMH.01secfail, 1, count_na_func)
+
+PTMH.01secfail$count_na_other <- apply(PTMH.01secfail[,1:44], 1, count_na_func)
+
+PTMH.01secfail$count_na_scopi <- apply(PTMH.01secfail[,45:100], 1, count_na_func)
+PTMH.01secfail$count_na_idas <- apply(PTMH.01secfail[,88:188], 1, count_na_func)
+PTMH.01secfail$count_na_mss <- apply(PTMH.01secfail[,192:231], 1, count_na_func)
+PTMH.01secfail$count_na_pid <- apply(PTMH.01secfail[,235:260], 1, count_na_func)
+PTMH.01secfail$count_na_bfi <- apply(PTMH.01secfail[,265:309], 1, count_na_func)
+PTMH.01secfail$count_na_dps <- apply(PTMH.01secfail[,313:347], 1, count_na_func)
+PTMH.01secfail$count_na_pcq <- apply(PTMH.01secfail[,351:396], 1, count_na_func)
 
 
 PTMH.01valid2$PTCQ_timeA_Page.Submit / 56 -> PTMH.01valid2$PTCQ.a.spi
@@ -860,6 +875,8 @@ PTMH.04 <- read.spss("PTMHspss_cleaned.sav",
 
 rm(PTMH.04details)
 
+
+
 -------------#RECODE certain subscales------------------------------------------
 #SCALES THAT NEED TO BE RECODED AFTER IMPUTATION
 #SCOPI.Check SCOPI.OCD
@@ -972,7 +989,14 @@ colnames(PTMH.04)[colSums(is.na(PTMH.04)) > 0]
   #SCOPI IDAS MSS BFI PID DPS PCQ 
 
 
+
+#save as new dataset
+PTMH.05 <- PTMH.04
+
+
 -------------#DESCCRIPTIVES----------------------------------------------------
+
+
 
 
 mean(x = PTMH.04$AGE)
@@ -997,4 +1021,11 @@ mean()
 library(tidyverse)
 library(readr)
 
+PTMH.04 <- read.csv(PTMH.04)
+
+library(readr)
+PTMH.04 <- read_delim("ptmh/PTMH.04.csv", 
+                      delim = "\t", escape_double = FALSE, 
+                      col_names = TRUE, trim_ws = TRUE)
+View(PTMH.04)
 

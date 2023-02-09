@@ -69,6 +69,9 @@ summary(adaa_full$masq_aa)
 model1 <- lm(adaa_full$cigsday ~ adaa_full$gender 
              + adaa_full$age, na.action = "na.omit")
 summary(model1)
+#to see number of cases included in model, use nrow(model.frame(name))
+nrow(model.frame(model1)) 
+
 
 # Step 2: Run the second level of the hierarchy
 model2 <- lm(adaa_full$cigsday ~ adaa_full$gender 
@@ -80,7 +83,8 @@ summary(model2)
 
 
 
-# Step 3: Compare the two models using an ANOVA test
+
+# Step 3: Compare the two models using an ANOVA test; nested model comparison 
 anova(model1, model2)
 
 
@@ -92,6 +96,9 @@ rsq2
 
 # Step 5: Calculate the change in R-squared
 rsq_change <- rsq2 - rsq1
+ #OR 
+rsq_change <- summary(model2)$r.squared - summary(model1)$r.squared
+
 rsq_change
 
 # Step 6: Print the change in R-squared
