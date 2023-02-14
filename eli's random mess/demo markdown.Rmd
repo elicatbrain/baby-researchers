@@ -1,0 +1,10 @@
+---
+title: babys first markdown
+author: its obvious
+date: feb 13th, 2023
+output: 
+  html_document:
+    theme: sandstone
+---
+    
+    
