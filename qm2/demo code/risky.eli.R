@@ -35,8 +35,23 @@ summary(risk$SYS)
 risk$SYS <- as.numeric(risk$SYS)
 sd(SYS, na.rm=TRUE)
 
-risk.eli$SYShigh <- risk.eli$SYS + 5.34
-risk.eli$SYSlow <- risk.eli$SYS - 5.34
+summary(risk.eli$DERS_total)
+
+risk.eli$SYSlow <- risk.eli$SYS -14.66
+risk.eli$SYhigh <- risk.eli$SYS -25.34
+
+
+
+risk.eli$low_ders <- risk.eli$SYSlow*risk.eli$DERS_total
+risk.eli$high_ders <- risk.eli$SYShigh*risk.eli$DERS_total
+
+
+
+model1 <- lm(risk.eli$zsertot ~ risk.eli$DERS_total + 
+               risk.eli$SYSlow +  risk.eli$low_ders, na.rm=TRUE)
+
+model2 <- lm(risk.eli$zsertot ~ risk.eli$DERS_total + 
+               risk.eli$SYShigh +  risk.eli$high_ders,  na.rm=TRUE)
 
 
 

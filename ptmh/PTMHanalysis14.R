@@ -38,6 +38,8 @@ PTMH.04 <- read_delim("ptmh/PTMH.04.csv",
                       col_names = TRUE, trim_ws = TRUE)
 View(PTMH.04)
 
+PTMH.05 <- PTMH.04
+
 
 
 -----------#hierarchical regression models--base code--------------------------
