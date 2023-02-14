@@ -69,31 +69,10 @@ library(reactable)
 ```{r, warning=FALSE}
 # set working directory to where csv is saved beforehand
 # setwd("/Users/carolinelee/Desktop/Baby Researchers/qm2/datasets")
-setwd("/Users/carolinelee/Desktop/Baby Researchers/qm2/datasets")
+# setwd("/Users/Elizabeth Bell/OneDrive - Southern Methodist University/Desktop/baby-researchers/qm2/datasets")
+setwd("/Users/Elizabeth Bell/OneDrive - Southern Methodist University/Desktop/baby-researchers/qm2/datasets")
 
 df <- read_csv("Race3Math.csv", show_col_types = FALSE)
-```
-
-```{r, results='asis'}
-reactable(
-  df, 
-  filterable = TRUE,
-  showPageSizeOptions = TRUE, 
-  striped = TRUE, 
-  highlight = TRUE,
-  resizable = TRUE,
-  theme = reactableTheme(
-    color = "hsl(233, 9%, 87%)",
-    backgroundColor = "hsl(233, 9%, 19%)",
-    borderColor = "hsl(233, 9%, 22%)",
-    stripedColor = "hsl(233, 12%, 22%)",
-    highlightColor = "hsl(233, 12%, 24%)",
-    inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
-    selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
-    pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
-    pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
-  )
-)
 ```
 
 
