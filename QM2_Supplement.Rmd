@@ -1,5 +1,6 @@
 ---
 title: "Quantitative Methods II R Supplement"
+date: 2023-02-13
 output: 
   html_document: 
     theme: yeti 
@@ -29,6 +30,8 @@ pkgTest <- function(pkg){
   sapply(pkg,  require,  character.only = TRUE)
 }
 
+# knitr
+
 knitr::knit_hooks$set(output = function(x, options){
   if(!is.null(options$max_height)){
     paste('<pre style = "max-height:', options$max_height, '; float: left; width: 910px; overflow-y: auto;">', x, "</pre>", sep = "")
@@ -38,8 +41,14 @@ knitr::knit_hooks$set(output = function(x, options){
   
 })
 
+# loading packages 
+
 lapply(c("tidyverse"),pkgTest)
+lapply(c("kableExtra"),pkgTest)
+lapply(c("reactable"),pkgTest)
 library(tidyverse)
+library(kableExtra)
+library(reactable)
 ```
 
 ```{css, echo=FALSE}
@@ -53,20 +62,39 @@ library(tidyverse)
     flex-direction: row-reverse;
 }
 ```
-    
-## Homework 2
+
+### Homework 5
+**Due 02/14/23**
 
 ```{r, warning=FALSE}
-df_hw2 <- read.csv("https://raw.githubusercontent.com/carolinelee78/school-stuff/main/Spring-2023/HW2_Dataset.csv?token=GHSAT0AAAAAAB5NON4SLJOXVLCQXE7BEL2MY6UKF3A")
+# set working directory to where csv is saved beforehand
+# setwd("/Users/carolinelee/Desktop/Baby Researchers/qm2/datasets")
+setwd("/Users/carolinelee/Desktop/Baby Researchers/qm2/datasets")
 
+df <- read_csv("Race3Math.csv", show_col_types = FALSE)
 ```
 
-## Lecture 4  
-
-**January 26th, 2023** 
-
-
-
+```{r, results='asis'}
+reactable(
+  df, 
+  filterable = TRUE,
+  showPageSizeOptions = TRUE, 
+  striped = TRUE, 
+  highlight = TRUE,
+  resizable = TRUE,
+  theme = reactableTheme(
+    color = "hsl(233, 9%, 87%)",
+    backgroundColor = "hsl(233, 9%, 19%)",
+    borderColor = "hsl(233, 9%, 22%)",
+    stripedColor = "hsl(233, 12%, 22%)",
+    highlightColor = "hsl(233, 12%, 24%)",
+    inputStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+    selectStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+    pageButtonHoverStyle = list(backgroundColor = "hsl(233, 9%, 25%)"),
+    pageButtonActiveStyle = list(backgroundColor = "hsl(233, 9%, 28%)")
+  )
+)
+```
 
 
 
